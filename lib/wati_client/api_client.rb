@@ -72,7 +72,7 @@ module WatiClient
       if opts[:return_type]
         data = deserialize(response, opts[:return_type])
       else
-        data = nil
+        data = deserialize(response, 'Object')
       end
       return data, response.code, response.headers
     end
