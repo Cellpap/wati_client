@@ -1,6 +1,6 @@
 # WatiClient::MediaApi
 
-All URIs are relative to *https://app-server.wati.io/api*
+All URIs are relative to *https://live-mt-server.wati.io/300356/api*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
