@@ -216,8 +216,8 @@ module WatiClient
     # @option opts [ListMessage] :list_message &lt;u&gt;    &lt;b&gt;InteractiveListMessage&lt;/b&gt;  &lt;/u&gt;  &lt;br /&gt;  &lt;br /&gt;  &lt;b&gt;Rows:&lt;/b&gt;  &lt;br /&gt; allowed count: &lt;b&gt;1-10&lt;/b&gt;&lt;br /&gt;&lt;b&gt;Allowed characters length after mapping:&lt;/b&gt;&lt;br /&gt;                  header text: &lt;b&gt;60&lt;/b&gt;&lt;br /&gt;                  body text: &lt;b&gt;1024&lt;/b&gt;&lt;br /&gt;                  footer text: &lt;b&gt;60&lt;/b&gt;&lt;br /&gt;                  section title: &lt;b&gt;24&lt;/b&gt;&lt;br /&gt;                  row title: &lt;b&gt;24&lt;/b&gt;&lt;br /&gt;                  row description: &lt;b&gt;72&lt;/b&gt;&lt;br /&gt;
     # @return [nil]
     def v1_send_interactive_list_message_post(whatsapp_number, opts = {})
-      v1_send_interactive_list_message_post_with_http_info(whatsapp_number, opts)
-      nil
+      data, status_code, headers, error = v1_send_interactive_list_message_post_with_http_info(whatsapp_number, opts)
+      WatiClient::Response.new(data, status_code, headers, error)
     end
 
     # Send Interactive List Message
@@ -270,11 +270,11 @@ module WatiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers, error = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: MessagesApi#v1_send_interactive_list_message_post\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
-      return data, status_code, headers
+      return data, status_code, headers, error
     end
 
     # Send File to opened session
