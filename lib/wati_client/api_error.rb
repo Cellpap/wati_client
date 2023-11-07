@@ -54,5 +54,9 @@ module WatiClient
 
       msg
     end
+
+    def error
+      self
+    end
   end
 end

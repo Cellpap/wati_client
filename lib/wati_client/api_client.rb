@@ -47,6 +47,7 @@ module WatiClient
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
+      error = nil
       request = build_request(http_method, path, opts)
       response = request.run
 
@@ -56,16 +57,16 @@ module WatiClient
 
       unless response.success?
         if response.timed_out?
-          fail ApiError.new('Connection timed out')
+          error = ApiError.new('Connection timed out')
         elsif response.code == 0
           # Errors from libcurl will be made visible here
-          fail ApiError.new(:code => 0,
-                            :message => response.return_message)
+          error = ApiError.new(code: 0,
+                               message: response.return_message)
         else
-          fail ApiError.new(:code => response.code,
-                            :response_headers => response.headers,
-                            :response_body => response.body),
-               response.status_message
+          error = ApiError.new(code: response.code,
+                               response_headers: response.headers,
+                               response_body: response.body),
+                  response.status_message
         end
       end
 
@@ -74,7 +75,7 @@ module WatiClient
       else
         data = deserialize(response, 'Object')
       end
-      return data, response.code, response.headers
+      return data, response.code, response.headers, error
     end
 
     # Builds the HTTP request
@@ -101,17 +102,17 @@ module WatiClient
       _verify_ssl_host = @config.verify_ssl_host ? 2 : 0
 
       req_opts = {
-        :method => http_method,
-        :headers => header_params,
-        :params => query_params,
-        :params_encoding => @config.params_encoding,
-        :timeout => @config.timeout,
-        :ssl_verifypeer => @config.verify_ssl,
-        :ssl_verifyhost => _verify_ssl_host,
-        :sslcert => @config.cert_file,
-        :sslkey => @config.key_file,
-        :verbose => @config.debugging,
-        :followlocation => follow_location
+        method: http_method,
+        headers: header_params,
+        params: query_params,
+        params_encoding: @config.params_encoding,
+        timeout: @config.timeout,
+        ssl_verifypeer: @config.verify_ssl,
+        ssl_verifyhost: _verify_ssl_host,
+        sslcert: @config.cert_file,
+        sslkey: @config.key_file,
+        verbose: @config.debugging,
+        followlocation: follow_location
       }
 
       # set custom cert, if provided
@@ -119,7 +120,7 @@ module WatiClient
 
       if [:post, :patch, :put, :delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
-        req_opts.update :body => req_body
+        req_opts.update body: req_body
         if @config.debugging
           @config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
         end
@@ -230,7 +231,7 @@ module WatiClient
       fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
 
       begin
-        data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
+        data = JSON.parse("[#{body}]", symbolize_names: true)[0]
       rescue JSON::ParserError => e
         if %w(String Date Time).include?(return_type)
           data = body
