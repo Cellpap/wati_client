@@ -149,8 +149,8 @@ module WatiClient
     # @option opts [ButtonsMessage] :buttons_message &lt;u&gt;    &lt;b&gt;InteractiveButtonsMessage&lt;/b&gt;  &lt;/u&gt;  &lt;br /&gt;  &lt;br /&gt;  &lt;b&gt;Header:&lt;/b&gt;  &lt;br /&gt;                  {&lt;br /&gt;                    \&quot;type\&quot;: \&quot;&lt;b&gt;Text&lt;/b&gt; or &lt;b&gt;Video&lt;/b&gt; or &lt;b&gt;Image&lt;/b&gt; or &lt;b&gt;Document&lt;/b&gt;\&quot;,&lt;br /&gt;                    \&quot;text\&quot;:\&quot;header text for type &lt;b&gt;Text&lt;/b&gt;\&quot;,&lt;br /&gt;                    \&quot;media\&quot;: {&lt;br /&gt;                          \&quot;url\&quot;:\&quot;https://...\&quot;, // (media obj should be not empty for non &lt;b&gt;Text&lt;/b&gt; types)&lt;br /&gt;                          \&quot;fileName\&quot;: \&quot;MyDoc.pdf\&quot;} // (this field is only &lt;b&gt;Document&lt;/b&gt; type) &lt;br /&gt;                  }&lt;br /&gt;&lt;b&gt;Buttons:&lt;/b&gt;&lt;br /&gt; allowed count: &lt;b&gt;1-3&lt;/b&gt;&lt;br /&gt;&lt;b&gt;Allowed characters length after mapping:&lt;/b&gt;&lt;br /&gt;                  header text: &lt;b&gt;60&lt;/b&gt;&lt;br /&gt;                  body text: &lt;b&gt;1024&lt;/b&gt;&lt;br /&gt;                  footer text: &lt;b&gt;60&lt;/b&gt;&lt;br /&gt;                  button&#39;s text: &lt;b&gt;20&lt;/b&gt;&lt;br /&gt;
     # @return [nil]
     def v1_send_interactive_buttons_message_post(whatsapp_number, opts = {})
-      v1_send_interactive_buttons_message_post_with_http_info(whatsapp_number, opts)
-      nil
+      data, status_code, headers, error = v1_send_interactive_buttons_message_post_with_http_info(whatsapp_number, opts)
+      WatiClient::Response.new(data, status_code, headers, error)
     end
 
     # Send Interactive Buttons Message
@@ -203,11 +203,11 @@ module WatiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers, error = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: MessagesApi#v1_send_interactive_buttons_message_post\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
-      return data, status_code, headers
+      return data, status_code, headers, error
     end
 
     # Send Interactive List Message
