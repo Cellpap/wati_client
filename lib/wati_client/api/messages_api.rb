@@ -357,8 +357,8 @@ module WatiClient
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def v1_send_session_message_whatsapp_number_post(whatsapp_number, message_text, opts = {})
-      response, _, _ = v1_send_session_message_whatsapp_number_post_with_http_info(whatsapp_number, message_text, opts)
-      response
+      data, status_code, headers = v1_send_session_message_whatsapp_number_post_with_http_info(whatsapp_number, message_text, opts)
+      WatiClient::Response.new(data, status_code, headers)
     end
 
     # Send Message to opened session
