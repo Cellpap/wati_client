@@ -284,8 +284,8 @@ module WatiClient
     # @option opts [String] :caption (optional)
     # @return [nil]
     def v1_send_session_file_whatsapp_number_post(whatsapp_number, file, opts = {})
-      v1_send_session_file_whatsapp_number_post_with_http_info(whatsapp_number, file, opts)
-      nil
+      data, status_code, headers, error = v1_send_session_file_whatsapp_number_post_with_http_info(whatsapp_number, file, opts)
+      WatiClient::Response.new(data, status_code, headers, error)
     end
 
     # Send File to opened session
@@ -344,11 +344,11 @@ module WatiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers, error = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: MessagesApi#v1_send_session_file_whatsapp_number_post\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
-      return data, status_code, headers
+      return data, status_code, headers, error
     end
 
     # Send Message to opened session
