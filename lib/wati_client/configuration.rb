@@ -150,7 +150,7 @@ module WatiClient
 
     def initialize
       @scheme = 'https'
-      @host = 'live-mt-server.wati.io/300356'
+      @host = 'live-mt-server.wati.io/301062'
       @base_path = '/api'
       @server_index = nil
       @server_operation_index = {}
